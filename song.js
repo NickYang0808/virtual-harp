@@ -27,15 +27,15 @@ const IMUSE_SONGS=[
         firstBeatOffset:2.5
     },
         {
-        title: "hi", "category": "華語歌曲", 
+        title: "laufey", "category": "華語歌曲", 
         url: "./midi/朋友.mid",
-        youtubeUrl:"https://www.youtube.com/watch?v=9bZkp7q19f0",
+        youtubeUrl:"https://www.youtube.com/watch?v=avjI3_GIZBw",
         firstBeatOffset:2.5
     },
             {
-        title: "hi", "category": "華語歌曲", 
+        title: "shinunoga", "category": "華語歌曲", 
         url: "./midi/朋友.mid",
-        youtubeUrl:"https://www.youtube.com/watch?v=9bZkp7q19f0",
+        youtubeUrl:"https://www.youtube.com/watch?v=lRVJuPI5IXI",
         firstBeatOffset:2.5
     },
             {
