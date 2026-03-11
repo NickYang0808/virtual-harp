@@ -26,8 +26,10 @@ function initMidiUI(containerElement, songData) {
       item.classList.add("active");
 
       // 觸發你的 midi 載入邏輯 (假設叫 loadMidi)
-      if (typeof loadMidi === "function") {
-        loadMidi(song.url);
+      if (typeof window.switchSong === "function") {
+        window.switchSong(song);
+      }else{
+        console.error("找不到switchSog韓式");
       }
     };
 

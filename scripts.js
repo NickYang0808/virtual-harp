@@ -70,9 +70,9 @@ function onPlayerStateChange(event) {
 // --- 4. 換歌邏輯 (放在最外層，確保 Selector 叫得到) ---
 window.switchSong = async function (selectedSong) {
   if (!selectedSong) return;
+
   console.log("🎵 切換歌曲：", selectedSong.title);
   const vId = getYouTubeID(selectedSong.youtubeUrl);
-
   const tryCueVideo = () => {
     // 嚴格判斷：必須 player 存在且 Ready 訊號為 true
     if (isPlayerReady && player && typeof player.cueVideoById === "function") {
@@ -86,14 +86,26 @@ window.switchSong = async function (selectedSong) {
     }
   };
 
+
+  // 1. 先顯示基本標題
+  if (infoContainer) {
+    infoContainer.innerHTML = `
+      <h2 style="margin:0; font-size: 28px;">${selectedSong.title}</h2>
+      <p id="song-bpm-display" style="margin:5px 0 0 0; color: #666;">BPM: 解析中...</p>
+    `;
+  }
   try {
     currentMidiData = await loadAndAnalyzeMidi(
       selectedSong.url,
       selectedSong.firstBeatOffset || 0,
     );
+    const bpmValue=currentMidiData.bpm;
+
+    const bpmDisplay=document.getElementById('song-bpm-display');
+    if(bpmDisplay) bpmDisplay.innerText = `BPM: ${bpmValue} | 左手判定: ${currentMidiData.hasLeftHand ? "✅" : "❌"}`;
     tryCueVideo();
   } catch (err) {
-    console.error("MIDI 載入出錯", err);
+    console.error("切換失敗", err);
   }
 };
 
