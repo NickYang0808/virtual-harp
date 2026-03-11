@@ -23,7 +23,7 @@ const IMUSE_SONGS=[
         {
         title: "g", "category": "華語歌曲", 
         url: "./midi/朋友.mid",
-        youtubeUrl:"https://www.youtube.com/watch?v=9bZkp7q19f0",
+        youtubeUrl:"https://youtu.be/xFTXwNIU514?si=lG8pOUJ5H4FuDJpZ",
         firstBeatOffset:2.5
     },
         {
