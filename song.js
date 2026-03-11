@@ -32,6 +32,6 @@ const IMUSE_SONGS = [
     category: "華語歌曲",
     url: "./midi/耶和華祝福.mid",
     youtubeUrl: "https://www.youtube.com/watch?v=OD7Pvwz4cjY",
-    firstBeatOffset: 2.5, //約0:8秒左右
+    firstBeatOffset: 2, //約0:8秒左右
   },
 ];
