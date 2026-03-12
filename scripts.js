@@ -71,7 +71,6 @@ function onPlayerStateChange(event) {
     console.log("VIDEO PAUSE OR STOP");
     cancelAnimationFrame(timeRequestId);
   }
-  //isVideoPlaying = event.data === YT.PlayerState.PLAYING;
 }
 //對齊影片
 let timeRequestId;
@@ -79,8 +78,10 @@ let timeRequestId;
 function updateVideoCounter(){
   const timeDisplay = document.getElementById('video-current-time');
 
-  if(player&& typeof player.getCurrentTime==="function"&&timeDisplay){
+  if(player&& typeof player.getCurrentTime==="function"){
     const currentTime = player.getCurrentTime();
+
+    console.log(`video time : ${currentTime.toFix(3)}s`);
     timeDisplay.innertext=currentTime.toFixed(2);
     
     //baseOffset對齊運算
@@ -88,6 +89,7 @@ function updateVideoCounter(){
   }
   timeRequestId=requestAnimationFrame(updateVideoCounter);
 }
+
 // --- 4. 換歌邏輯 (放在最外層，確保 Selector 叫得到) ---
 window.switchSong = async function (selectedSong) {
   if (!selectedSong) return;
