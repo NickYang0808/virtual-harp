@@ -82,7 +82,7 @@ function updateVideoCounter(){
     const currentTime = player.getCurrentTime();
 
     console.log(`video time : ${currentTime.toFixed(3)}s`);
-    timeDisplay.innertext=currentTime.toFixed(2);
+    timeDisplay.innerText=currentTime.toFixed(2);
     
     //baseOffset對齊運算
     //check MIDI event
