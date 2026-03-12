@@ -80,7 +80,9 @@ async function loadAndAnalyzeMidi(midiUrl, firstBeatOffset = 0) {
       .map((timeStr) => {
         const midiTime = parseFloat(timeStr);
 
-        const sortedNotes=chordGroups[timeStr].sort((a,b)=>a-b);
+        const sortedNotes=chordGroups[timeStr]
+          .map(n=>n.midi)
+          .sort((a,b)=>a-b);
 
         return {
           time: midiTime,
@@ -128,9 +130,7 @@ async function loadAndAnalyzeMidi(midiUrl, firstBeatOffset = 0) {
  */
 function getActiveChord(currentTime, midiData) {
   
-  if (!midiData || !midiData.hasLeftHand || !midiData.progression) {
-    return [60, 64, 67]; // 預設 C Major
-  }
+  if (!midiData || !midiData.progression) return [];
 
   // 2. 尋找當前時間對應的和弦
   // 邏輯：從後往前找，找到第一個 videoTime 小於等於當前時間的點
@@ -139,5 +139,5 @@ function getActiveChord(currentTime, midiData) {
     .find((p) => currentTime >= p.videoTime);
 
   // 3. 如果找到了就回傳 notes，沒找到就回傳預設
-  return active ? active.notes : [60, 64, 67];
+  return active ? active.notes : [];
 }

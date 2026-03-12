@@ -116,6 +116,7 @@ window.switchSong = async function (selectedSong) {
 };
 //對齊影片
 let timeRequestId;
+let lastChordString="";
 
 function updateVideoCounter(){
   const timeDisplay = document.getElementById('video-current-time');
@@ -126,8 +127,14 @@ function updateVideoCounter(){
     
     if(currentMidiData && currentMidiData.progression){
       const activeNotes=getActiveChord(currentTime,currentMidiData);
+      const currentStr=JSON.stringify(activeNotes);
+
       //console test
-      console.log(`當前和弦內音符：[${activeNotes.join(',')}]`);
+      if(currentStr!==lastChordString){
+        console.log(`當前和弦內音符：[${activeNotes.join(',')}]`);
+        lastChordString=currentStr;
+      }
+      
     }
     //baseOffset對齊運算
     //check MIDI event
