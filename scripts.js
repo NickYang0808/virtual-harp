@@ -81,7 +81,7 @@ function updateVideoCounter(){
   if(player&& typeof player.getCurrentTime==="function"){
     const currentTime = player.getCurrentTime();
 
-    console.log(`video time : ${currentTime.toFix(3)}s`);
+    console.log(`video time : ${currentTime.toFixed(3)}s`);
     timeDisplay.innertext=currentTime.toFixed(2);
     
     //baseOffset對齊運算
