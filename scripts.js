@@ -72,23 +72,7 @@ function onPlayerStateChange(event) {
     cancelAnimationFrame(timeRequestId);
   }
 }
-//對齊影片
-let timeRequestId;
 
-function updateVideoCounter(){
-  const timeDisplay = document.getElementById('video-current-time');
-
-  if(player&& typeof player.getCurrentTime==="function"){
-    const currentTime = player.getCurrentTime();
-
-    console.log(`video time : ${currentTime.toFixed(3)}s`);
-    timeDisplay.innerText=currentTime.toFixed(2);
-    
-    //baseOffset對齊運算
-    //check MIDI event
-  }
-  timeRequestId=requestAnimationFrame(updateVideoCounter);
-}
 
 // --- 4. 換歌邏輯 (放在最外層，確保 Selector 叫得到) ---
 window.switchSong = async function (selectedSong) {
@@ -130,7 +114,23 @@ window.switchSong = async function (selectedSong) {
     console.error("切換失敗", err);
   }
 };
+//對齊影片
+let timeRequestId;
 
+function updateVideoCounter(){
+  const timeDisplay = document.getElementById('video-current-time');
+
+  if(timeDisplay&&player&& typeof player.getCurrentTime==="function"){
+    const currentTime = player.getCurrentTime();
+
+    console.log(`video time : ${currentTime.toFixed(3)}s`);
+    timeDisplay.innerText=currentTime.toFixed(2);
+    
+    //baseOffset對齊運算
+    //check MIDI event
+  }
+  timeRequestId=requestAnimationFrame(updateVideoCounter);
+}
 // --- 5. MediaPipe 與 相機 (必須在 window.onload，因為要抓 HTML 元素) ---
 window.onload = () => {
   videoElement = document.querySelector(".input_video");
