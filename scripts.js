@@ -26,14 +26,6 @@ function getYouTubeID(url) {
   return match && match[2].length === 11 ? match[2] : null;
 }
 
-// function getActiveChord(videoTime, midiData) {
-//   if (!midiData || !midiData.progression) return [];
-//   const activeProg = [...midiData.progression]
-//     .reverse()
-//     .find((p) => videoTime >= p.videoTime);
-//   return activeProg ? activeProg.notes : [60, 64, 67];
-// }
-
 // --- 3. YouTube API 核心 (必須在最外層，絕對不能放進 window.onload) ---
 // 這樣 YouTube API 載入時才叫得到它
 function onYouTubeIframeAPIReady() {
@@ -130,7 +122,7 @@ function updateVideoCounter(){
 
       //console test
       if(currentStr!==lastChordString){
-        console.log(`當前和弦內音符：[${activeNotes.join(',')}]`);
+        console.log(`當前和弦：${chordAnalyze(activeNotes)}|當前和弦內音符：[${activeNotes.join(',')}]`);
         lastChordString=currentStr;
       }
     }

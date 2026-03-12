@@ -141,3 +141,25 @@ function getActiveChord(currentTime, midiData) {
   // 3. 如果找到了就回傳 notes，沒找到就回傳預設
   return active ? active.notes : [];
 }
+/**
+ * 簡易和弦分析 (針對根音位置 MIDI)
+ * @param {Array} notes - 已排序的 MIDI 編號陣列
+ * @returns {string} - 和弦名稱 (例如 "C Major")
+ */
+function chordAnalyze(notes) {
+  if (!notes || notes.length < 2) return "無音符";
+
+  const root = notes[0];
+  const third = notes[1];
+  const interval = third - root; // 計算根音與三音的半音差
+
+  // 取得根音名稱 (C, C#, D...)
+  const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  const rootName = noteNames[root % 12];
+
+  // 判斷大調 (4個半音) 或 小調 (3個半音)
+  if (interval === 4) return `${rootName} Major`;
+  if (interval === 3) return `${rootName} Minor`;
+  
+  return `${rootName} (特殊和弦)`;
+}
