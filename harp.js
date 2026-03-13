@@ -80,6 +80,7 @@ class Harp {
 
   _triggerString(index, chord) {
     //寫和弦四音對應mapping 7弦處
+    chord=mappingToString(chord);
     const note = (Array.isArray(chord))?chord[index]:null;
 
     if(note){

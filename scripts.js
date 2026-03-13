@@ -122,7 +122,7 @@ function updateVideoCounter(){
 
       //console test
       if(currentStr!==lastChordString){
-        console.log(`當前和弦：${chordAnalyze(activeNotes)}|當前和弦內音符：[${activeNotes.join(',')}]`);
+        console.log(`當前和弦：${chordAnalyze(activeNotes).name}|當前和弦內音符：[${activeNotes.join(',')}]`);
         lastChordString=currentStr;
       }
     }

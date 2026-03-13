@@ -146,47 +146,71 @@ function getActiveChord(currentTime, midiData) {
  * @param {Array} notes - 已排序的 MIDI 編號陣列
  * @returns {string} - 和弦名稱 (例如 "C Major")
  */
+/**
+ * Mapping to String
+ */
+function mappingToString(activeNotes) {
+  if (!activeNotes || activeNotes.length === 0) return new Array(7).fill(null);
+
+  // 1. 獲取分析與對齊後的根音 (延續你剛才的 45~57 邏輯)
+  const analysis = chordAnalyze(activeNotes);
+  const newRoot = (analysis.root % 12) + 48; // 強制 C 落在 48
+  const intervals = analysis.intervals;      // 相對音程 [0, 4, 7, 11...]
+
+  // 2. 準備這 7 根弦的容器
+  let finalHarpNotes = [];
+
+  // --- 填充策略 ---
+  // 第 1 弦：固定的低音根音
+  finalHarpNotes[0] = newRoot;
+
+  // 第 2, 3, 4 弦：其餘的和聲組成音 (intervals[1], [2], [3]...)
+  for (let i = 1; i <= 3; i++) {
+    // 預防 intervals 長度不足 (例如只有 3 個音的和弦)
+    const idx = i < intervals.length ? i : (i % (intervals.length - 1)) + 1;
+    finalHarpNotes[i] = newRoot + intervals[idx];
+  }
+
+  // 第 5, 6, 7 弦：將 2, 3, 4 弦的音往上加一個八度 (+12)
+  for (let i = 4; i <= 6; i++) {
+    finalHarpNotes[i] = finalHarpNotes[i - 3] + 12;
+  }
+
+  return finalHarpNotes; 
+}
+/**
+ * 和弦分析核心：回傳結構化資料
+ */
 function chordAnalyze(notes) {
-  if (!notes || notes.length < 2) return "";
+  if (!notes || notes.length === 0) return { name: "N/A", root: null, type: null, intervals: [] };
 
   const root = notes[0];
   const rootName = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"][root % 12];
+  const intervalStr = notes.slice(1).map(n => n - root).join('-');
 
-  // 計算所有音符相對於根音的半音距離
-  // 例如 [60, 64, 67, 72] 會變成 "4-7-12"
-  const intervals = notes.slice(1).map(n => n - root).join('-');
+  // 定義屬性資料庫 (代碼：0=Major, 1=Minor, 2=7, 3=maj7, 4=m7, 5=sus...)
+  const chordMap = {
+    "4-7":    { label: "",      class: 0 },
+    "4-7-12": { label: "",      class: 0 },
+    "3-7":    { label: "m",     class: 1 },
+    "3-7-12": { label: "m",     class: 1 },
+    "4-7-10": { label: "7",     class: 2 },
+    "4-7-11": { label: "maj7",  class: 3 },
+    "3-7-10": { label: "m7",    class: 4 },
+    "2-5-10": { label: "11",    class: 5 }, // 簡化標記為 11
+    "4-8":    { label: "aug",   class: 6 }
+  };
 
-  switch (intervals) {
-    case "4-7-12": // 跟音、大三度、五度、八度
-      return `${rootName}`;
-      
-    case "3-7-12": // 跟音、小三度、五度、八度
-      return `${rootName}m`;
-      
-    case "4-7-11": // 跟音、大三度、五度、大七度
-      return `${rootName}maj7`;
-      
-    case "3-7-10": // 跟音、小三度、五度、小七度
-      return `${rootName}m7`;
-      
-    case "4-7-10": // 跟音、大三度、五度、小七度
-      return `${rootName}7`;
-    case "2-5-10": // 跟音、大三度、五度、小七度
-      return `${rootName}9sus4`;
+  const result = chordMap[intervalStr] || { label: "?", class: -1 };
 
-
-    // 如果之後有 3 音的和弦 (無八度) 也可以在這邊補
-    case "4-7": 
-      return `${rootName}`;
-    case "3-7":
-      return `${rootName}m`;
-    case "4-8":
-      return `${rootName}aug`;
-
-    default:
-      return `${rootName}?`; // 若不符合上述規則，僅顯示根音名稱
-  }
+  return {
+    name: rootName + result.label, // 用於 Monitor (C, Am7...)
+    root: root,                    // 用於 Calculate (MIDI 60)
+    type: result.class,            // 用於 Calculate (數字類別)
+    intervals: notes.map(n => n - root) // 相對音程陣列
+  };
 }
+
 //sendMidi
 /**
  * 轉接器：將撥弦事件送往學長的 Web Synth velocity暫定調整
