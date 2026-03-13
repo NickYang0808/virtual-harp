@@ -1,3 +1,4 @@
+/*第一區*/
 .main {
   display: flex;
   width: 100vw;
@@ -10,6 +11,26 @@
   gap: 20px; /* 元素間的固定間距 */
 }
 
+/* 中間：畫布區域 (核心) */
+.canvas {
+  flex: 1; /* 自動撐開，佔據剩餘最大空間 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+.output_canvas {
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1280 / 640; /* 維持你設定的 2:1 解析度比例 */
+  object-fit: contain;
+  transform: scaleX(-1);
+  border: 2px solid rgb(125, 24, 24);
+  background-color: #ffffff;
+}
+
 /* 左側：歌單選單 */
 /* 左側：調整為垂直佈局 */
 .song-selector {
@@ -18,7 +39,7 @@
   flex-direction: column;
   height: 100%; /* 確保撐滿 main 的高度 */
   /* 加上你要求的邊框 */
-  border: 10px solid #40e9ff;
+  border: 10px solid rgb(125, 24, 24);
   border-radius: 8px;
   box-sizing: border-box;
   overflow: hidden; /* 確保內部元件不會超出邊框 */
@@ -28,7 +49,7 @@
   width: 100% !important;
   height: 240px !important;
   margin-bottom: 0px;
-  border: 2px solid #00e5ff; /* 加個紅框看看它到底在哪 */
+  border: 2px solid rgb(125, 24, 24); 
 }
 #songList {
   flex-grow: 1;
@@ -52,31 +73,11 @@
 }
 .playlist-item.active {
   background-color: #444;
-  color: #00e5ff;
-  border-left: 4px solid #00e5ff;
+  color: rgb(125, 24, 24);
+  border-left: 4px solid rgb(125, 24, 24);
   font-weight: bold;
 }
-/* 特效*/
 
-/* 中間：畫布區域 (核心) */
-.canvas {
-  flex: 1; /* 自動撐開，佔據剩餘最大空間 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 100%;
-}
-
-.output_canvas {
-  max-width: 100%;
-  max-height: 100%;
-  aspect-ratio: 1280 / 640; /* 維持你設定的 2:1 解析度比例 */
-  object-fit: contain;
-  transform: scaleX(-1);
-  border: 2px solid rgb(86, 231, 231);
-  background-color: #ffffff;
-}
 
 /* 右側：額外資訊（如目前的和弦或樂譜） */
 .right {
@@ -84,34 +85,6 @@
   height: 100%;
   border-left: 1px solid #ffffff;
   padding-left: 10px;
-}
-.function{
-  width: 100vw;
-  height:30vh;
-  background-color: rgb(255, 255, 255);
-  display: flex;
-  align-items: center;
-} 
-.song-info{
-  padding-left: 10%;
-  padding-right: 10%;
-  box-sizing: border-box;
-  width:80%;
-  height:80%;
-  border:5px solid rgb(86, 231, 231);
-}
-
-/* 手機版適配：若螢幕太窄，改為垂直排列 */
-@media (max-width: 768px) {
-  .main {
-    flex-direction: column;
-    height: auto;
-  }
-  .song-selector,
-  .right {
-    width: 100%;
-    flex: none;
-  }
 }
 /* 右側容器 */
 .right {
@@ -145,4 +118,41 @@
     background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
     border-radius: 12px;
     overflow: hidden; /* 防止 GUI 超出邊界 */
+}
+/*第二區*/
+.function{
+  width: 100vw;
+  height:30vh;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+.song-info{
+  box-sizing: border-box;
+  width:80%;
+  height:80%;
+  border:5px solid rgb(125, 24, 24);
+  display: flex;             /* 讓內部的文字也能輕易置中 */
+  flex-direction: column;    /* 讓標題與 BPM 垂直排列 */
+  justify-content: center;   /* 內部內容垂直置中 */
+  align-items: center;       /* 內部內容水平置中 */
+  box-sizing: border-box;
+  text-align: center;        /* 確保文字強制置中 */
+}
+
+
+
+
+/* 手機版適配：若螢幕太窄，改為垂直排列 */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    height: auto;
+  }
+  .song-selector,
+  .right {
+    width: 100%;
+    flex: none;
+  }
 }
