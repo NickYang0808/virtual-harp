@@ -113,3 +113,36 @@
     flex: none;
   }
 }
+/* 右側容器 */
+.right {
+    position: relative;
+    padding: 20px;
+}
+
+/* 木質感按鈕 */
+.wood-button {
+    background: #8b5a2b; /* 深木色 */
+    color: white;
+    border: 2px solid #5d3a1a;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.1s;
+}
+
+.wood-button:active {
+    transform: scale(0.95);
+    background: #6f4723;
+}
+
+/* Composer 容器設定 */
+#composer-slot {
+    margin-top: 15px;
+    width: 100%;
+    min-height: 300px; /* 給它一點預設高度，避免載入前畫面跳動 */
+    background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+    border-radius: 12px;
+    overflow: hidden; /* 防止 GUI 超出邊界 */
+}

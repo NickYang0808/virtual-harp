@@ -191,15 +191,45 @@ function chordAnalyze(notes) {
 /**
  * 轉接器：將撥弦事件送往學長的 Web Synth velocity暫定調整
  */
+let ctx;
+let ctxStart = false;
+let midi_synth;
+
+async function initAudio() {
+  if (!ctxStart) {
+    // ⚡ Create AudioContext only after first user interaction
+    ctx = new AudioContext();
+    midi_synth = new window.MidiSynth();
+    midi_synth.setAudioContext(ctx, ctx.destination);
+    ctxStart = true;
+    console.log("AudioContext 1.0 started:", ctx);
+
+    // ✅ This function exists only in the GUI version
+    if (typeof midi_synth.enableRoutingComposer === "function") {
+      await midi_synth.enableRoutingComposer({
+        button: '#open-composer-btn',
+        target: '#composer-slot',
+        tailwind: 'auto',
+      });
+    } else {
+      console.log("Non-GUI version detected, skipping Routing Composer setup.");
+    }
+
+  } else if (ctx.state === "suspended") {
+    ctx.resume().then(() => {
+      console.log("AudioContext resumed");
+    });
+  }
+  window.synth = midi_synth;//global virabale
+}
+document.addEventListener("click", initAudio, { once: false });
+document.addEventListener("touchstart", initAudio, { once: false });
+
 function sendMidiToSynth(midiNote, velocity = 100) {
     if (window.synth && typeof window.synth.send === 'function') {
-        // 0x90 代表 Note On (開始發聲)
-        // [指令, 音高, 力度]
-        window.synth.send([0x90, midiNote, velocity], 0);
 
-        // 可選：設定一段時間後關閉音符 (Note Off: 0x80)，
-        // 但通常豎琴音色會自帶 Decay，不一定要手動 Note Off。
-        // setTimeout(() => window.synth.send([0x80, midiNote, 0], 0), 500);
+      window.synth.send([0x90,midiNote,velocity],0);
+
     } else {
         console.warn("Synth 尚未初始化或無法連線");
     }
