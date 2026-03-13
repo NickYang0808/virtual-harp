@@ -6,6 +6,9 @@
     --paper-white: #f5f2e8;    /* 羊皮紙色文字 */
     --accent-gold: #d4af37;    /* 金色重點色 (取代藍色) */
 }
+.text-info {
+  color:#f5f2e8;
+}
 
 body {
     background-color: #1a120b; /* 極深木紋底色 */
@@ -16,21 +19,20 @@ body {
     flex-direction: column;
     overflow: hidden;
 }
+
+/*navbar*/
 .navbar {
   flex:0 0 5vh;
 }
-.function-area{
-  flex:0 0 30vh;
-  margin-top: 0;
-}
-/* 2. 佈局容器 (搬移自 HTML style) */
+
+/* Main */
 .main-container {
     height: 0 0 65vh;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-/* 3. 側邊面板：改為深木色質感 */
+/*SONG LIST */
 .side-panel {
     background: rgba(44, 30, 20, 0.85) !important; /* 深木色透明 */
     backdrop-filter: blur(10px);
@@ -44,27 +46,7 @@ body {
   flex-grow:1;
   overflow-y: auto;
 }
-/* 4. 畫布區域：給它一個相框感 */
-.canvas-wrapper {
-    background: #868686;
-    border-radius: 12px;
-    border: 3px solid var(--wood-medium); /* 像畫框一樣 */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
-    overflow: hidden;
-    position: relative;
-}
-
-.output_canvas {
-    max-width: 100%;
-    max-height: 100%;
-    aspect-ratio: 1280 / 640; 
-    object-fit: contain;
-    transform: scaleX(-1);
-    /* 去掉藍色發光，改為淡淡的古銅光 */
-    border: 1px solid var(--accent-gold);
-}
-
-/* 5. 歌單美化 */
+/*美化 */
 .playlist-item {
     padding: 12px 15px;
     color: #b5a48b;
@@ -80,6 +62,31 @@ body {
     background: var(--wood-medium);
     color: var(--accent-gold);
     border-left: 4px solid var(--accent-gold);
+}
+/* CANVAS */
+.canvas-wrapper {
+    background: #868686;
+    border-radius: 12px;
+    border: 3px solid var(--wood-medium); /* 像畫框一樣 */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+}
+
+.output_canvas {
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1280 / 640; 
+    object-fit: contain;
+    transform: scaleX(-1);
+    border: 2px dashed rgb(96, 96, 96);
+}
+
+/*Synth and effect*/
+/* 針對按鈕邊框與文字 */
+.btn-outline-info {
+    color: #8b5a2b !important;        /* 木質棕 */
+    border-color: #8b5a2b !important;
 }
 
 /* 6. 下方資訊區：古籍感 */
