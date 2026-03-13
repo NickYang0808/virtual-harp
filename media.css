@@ -46,9 +46,9 @@ body {
 }
 /* 4. 畫布區域：給它一個相框感 */
 .canvas-wrapper {
-    background: #000;
-    border-radius: 15px;
-    border: 8px solid var(--wood-medium); /* 像畫框一樣 */
+    background: #868686;
+    border-radius: 12px;
+    border: 3px solid var(--wood-medium); /* 像畫框一樣 */
     box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
     overflow: hidden;
     position: relative;
