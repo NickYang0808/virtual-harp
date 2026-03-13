@@ -1,6 +1,6 @@
 // --- 1. 最頂層：全域變數宣告 (確保所有 function 都看得到) ---
 var player;
-var isVideoPlaying = false;
+//Playing = false;
 var isPlayerReady = false; // 這是關鍵訊號
 var currentMidiData = null;
 var currentChord = [60, 64, 67];
@@ -243,8 +243,7 @@ async function onResults(results) {
 
     if (
       player &&
-      typeof player.getCurrentTime === "function" &&
-      isVideoPlaying
+      typeof player.getCurrentTime === "function" 
     ) {
       currentChord = getActiveChord(player.getCurrentTime(), currentMidiData);
     } else {
