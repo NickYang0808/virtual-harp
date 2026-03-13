@@ -69,13 +69,19 @@ class Harp {
   _calculateStringPos(frame, index, visualOffset = 0) {
     const px = frame.center.x + frame.forward2D.x * (this.spacing * index + this.baseOffset + visualOffset);
     const py = frame.center.y + frame.forward2D.y * (this.spacing * index + this.baseOffset);
-
+    // 定義向上與向下的延伸比例 (總長度為 this.length)
+    const upRatio = 0.7;   // 向上延伸 70%
+    const downRatio = 0.3; // 向下延伸 30%
     return {
-      x1: (px - frame.stringDir2D.x * this.length / 2) + visualOffset * frame.forward2D.y,
-      y1: (py - frame.stringDir2D.y * this.length / 2) - visualOffset * frame.forward2D.x,
-      x2: (px + frame.stringDir2D.x * this.length / 2) + visualOffset * frame.forward2D.y,
-      y2: (py + frame.stringDir2D.y * this.length / 2) - visualOffset * frame.forward2D.x
+      // 起點 (x1, y1)：從中心點往「反方向 (上)」延伸 70% 的長度
+      x1: (px - frame.stringDir2D.x * (this.length * upRatio)) + visualOffset * frame.forward2D.y,
+      y1: (py - frame.stringDir2D.y * (this.length * upRatio)) - visualOffset * frame.forward2D.x,
+      
+      // 終點 (x2, y2)：從中心點往「正方向 (下)」延伸 30% 的長度
+      x2: (px + frame.stringDir2D.x * (this.length * downRatio)) + visualOffset * frame.forward2D.y,
+      y2: (py + frame.stringDir2D.y * (this.length * downRatio)) - visualOffset * frame.forward2D.x
     };
+
   }
 
   _triggerString(index, chord) {
