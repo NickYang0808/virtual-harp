@@ -51,8 +51,7 @@ class Harp {
             this.strings[i].wasInside[fingerID] = isInside;
         });
     }
-  // 2. 獨立紀錄軌跡 (解決 finger not defined)
-  // 檢查是否有抓到手指，有的話紀錄第一隻手指 (fingerPoints[0])
+  //2.獨立紀錄軌跡檢查是否有抓到手指，有的話紀錄第一隻手指 (fingerPoints[0])
   if (fingerPoints && fingerPoints.length > 0) {
     const mainFinger = fingerPoints[0]; // 取得陣列中的第一個手指對象
     this.handHistory.push({ x: mainFinger.x, y: mainFinger.y });
@@ -102,10 +101,10 @@ class Harp {
       ctx.shadowColor = "white";
 
       // 直接使用 x，不要再乘 canvasWidth
-      ctx.moveTo(this.handHistory[0].x - xOffset, this.handHistory[0].y);
+      ctx.moveTo(this.handHistory[0].x + xOffset, this.handHistory[0].y);
 
       for (let i = 1; i < this.handHistory.length; i++) {
-          ctx.lineTo(this.handHistory[i].x - xOffset, this.handHistory[i].y);
+          ctx.lineTo(this.handHistory[i].x + xOffset, this.handHistory[i].y);
       }
       ctx.stroke();
       ctx.restore();  
