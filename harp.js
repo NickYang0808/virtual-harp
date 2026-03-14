@@ -123,6 +123,6 @@ class Harp {
     }
     //visual feedback
     this.strings[index].brightness = 1.0; 
-    this.strings[index].offset = (Math.random() - 0.5) * 0.03;
+    this.strings[index].offset = (Math.random() - 0.5) * 0.02;
   }
 }
