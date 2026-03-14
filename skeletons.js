@@ -58,7 +58,7 @@ class Skeleton {
     const nose = landmarks[0];
     if (nose) {
       ctx.beginPath();
-      ctx.arc(nose.x * width, nose.y * height, 25, 0, Math.PI * 2);
+      ctx.arc(nose.x * width, nose.y * height, 10, 0, Math.PI * 2);
       ctx.stroke();
 
       // 畫一個實心小點當鼻子
