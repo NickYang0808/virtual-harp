@@ -27,6 +27,8 @@ class Harp {
         type:type,
         x:position.x,
         y:position.y,
+        vx: (Math.random() - 0.5) * 4, // 隨機水平速度
+        vy: (Math.random() - 0.5) * 4, // 隨機垂直速度
         alpha:1.0,
         life:1.0,
         scale:0.5+Math.random()*0.5
