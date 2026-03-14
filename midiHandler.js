@@ -152,28 +152,28 @@ function getActiveChord(currentTime, midiData) {
 function mappingToString(activeNotes) {
   if (!activeNotes || activeNotes.length === 0) return new Array(7).fill(null);
 
-  // 1. 獲取分析與對齊後的根音 (延續你剛才的 45~57 邏輯)
-  const analysis = chordAnalyze(activeNotes);
-  const newRoot = (analysis.root % 12) + 48; // 強制 C 落在 48
-  const intervals = analysis.intervals;      // 相對音程 [0, 4, 7, 11...]
+  // 1. 獲取分析與對齊後的根音
+  //const analysis = chordAnalyze(activeNotes); 要詳細分析音程編排 再來改
 
-  // 2. 準備這 7 根弦的容器
+  const newRoot = (activeNotes[0] % 12) + 48; // 強制 C 落在 48
+  
   let finalHarpNotes = [];
-
-  // --- 填充策略 ---
-  // 第 1 弦：固定的低音根音
-  finalHarpNotes[0] = newRoot;
-
-  // 第 2, 3, 4 弦：其餘的和聲組成音 (intervals[1], [2], [3]...)
-  for (let i = 1; i <= 3; i++) {
-    // 預防 intervals 長度不足 (例如只有 3 個音的和弦)
-    const idx = i < intervals.length ? i : (i % (intervals.length - 1)) + 1;
-    finalHarpNotes[i] = newRoot + intervals[idx];
-  }
-
-  // 第 5, 6, 7 弦：將 2, 3, 4 弦的音往上加一個八度 (+12)
-  for (let i = 4; i <= 6; i++) {
-    finalHarpNotes[i] = finalHarpNotes[i - 3] + 12;
+  if(activeNotes.length>=4 && !(activeNotes[3]-activeNotes[0]==12)){//七和弦
+    finalHarpNotes[0] = newRoot;     // 第 1 弦 (Root)
+    finalHarpNotes[1] = activeNotes[1];
+    finalHarpNotes[2] = activeNotes[2];
+    finalHarpNotes[3] = activeNotes[3];
+    finalHarpNotes[4] = newRoot + 12;
+    finalHarpNotes[5] = activeNotes[1]+12; //3音
+    finalHarpNotes[6] = activeNotes[3]+12; //7音
+  }else{//三和弦
+    finalHarpNotes[0] = newRoot;     // 第 1 弦 (Root)
+    finalHarpNotes[1] = activeNotes[1];
+    finalHarpNotes[2] = activeNotes[2];
+    finalHarpNotes[3] = newRoot + 12; // 第 5 弦 (高八度 Root)
+    finalHarpNotes[4] = activeNotes[1]+12; //3音
+    finalHarpNotes[5] = activeNotes[2]+12; //5音
+    finalHarpNotes[6] = newRoot +24; //根音
   }
   return finalHarpNotes; 
 }
