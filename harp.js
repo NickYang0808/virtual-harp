@@ -81,7 +81,7 @@ class Harp {
     //2.獨立紀錄軌跡檢查是否有抓到手指，有的話紀錄第一隻手指 (fingerPoints[0])
     if (fingerPoints && fingerPoints.length > 0) {
       const mainFinger = fingerPoints[0]; // 取得陣列中的第一個手指對象
-      this.handHistory.push({ x: mainFinger.x, y: mainFinger.y });
+      this.handHistory.push({ x: mainFinger.x*1280, y: mainFinger.y*640 });
       // 限制長度
       if (this.handHistory.length > this.maxHistory) {
         this.handHistory.shift();
@@ -200,8 +200,6 @@ class Harp {
       if (this.handHistory.length > 0) {
         const lastPos = this.handHistory[this.handHistory.length - 1];
         
-        // 關鍵：這裡的 xOffset 必須跟 draw 軌跡時的一模一樣
-        // 假設 canvasWidth 是 1280
         const xOffset = 1280 / 4; 
         
         // 觸發多個粒子效果會更明顯
