@@ -6,7 +6,8 @@ var currentMidiData = null;
 var currentChord = [60, 64, 67];
 var midiOutput = null;
 
-let videoElement, canvasElement, canvasCtx;
+let guideLayer=null;
+let videoElement, canvasCtx, canvasElement;
 let myHarp = new Harp();
 const mySkeleton = new Skeleton({ color: "#003cffff", lineWidth: 4 });
 let smoothLandmarks = {};
@@ -139,6 +140,7 @@ function updateVideoCounter(){
 window.onload = () => {
   videoElement = document.querySelector(".input_video");
   canvasElement = document.querySelector(".output_canvas");
+  guideLayer = document.getElementById("detection-guide");
   canvasCtx = canvasElement.getContext("2d");
   canvasElement.width = 1280;
   canvasElement.height = 640;
@@ -174,9 +176,37 @@ window.onload = () => {
   }
 };
 
+//判斷抓到鼻子、肩膀
+function checkDetection(results, guide, canvas) {
+    const lm = results.poseLandmarks;
+    
+    // 1. 核心判斷：頭(0)與雙肩(11, 12) 是否都在畫面內且信心度 > 0.5
+    const isDetected = !!(lm && lm[0]?.visibility > 0.5 && 
+                           lm[11]?.visibility > 0.5 && 
+                           lm[12]?.visibility > 0.5);
 
+    // 2. 切換 UI 狀態 (使用 Bootstrap 的 d-none)
+    if (guide) guide.classList.toggle('d-none', isDetected);
+    if (canvas) canvas.style.opacity = isDetected ? "1" : "0.3";
+
+    return isDetected;
+}
 // --- 6. 核心計算 (保留你原本的所有主程式邏輯) ---
 async function onResults(results) {
+  const isReady=checkDetection(results,guideLayer,canvasElement);
+  
+  if(!isReady){
+    const ctx = canvasElement.getContext('2d');
+    ctx.clearRect(0,0,canvasElement.width,canvasElement.height);
+    
+    // 在畫布內也畫一個半透明的人影，比起單純 CSS 更有質感
+    ctx.save();
+    ctx.globalAlpha = 0.5; // 畫布層級的半透明
+    ctx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    ctx.restore();
+    return;
+  }
+
   if (!canvasCtx || !results.poseLandmarks) return;
   const targetIndices = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19, 20, 23, 24,
