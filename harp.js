@@ -47,13 +47,13 @@ class Harp {
                 this._triggerString(i, currentChord);
                 this.lastTriggerTime = now;
             }
-            this.handHistory.push({x:finger.x,y:finger.y});
-
-            if(this.handHistory.length>this.maxHistory){
-              this.handHistory.shift();
-            }
+            
             this.strings[i].wasInside[fingerID] = isInside;
         });
+    }
+    this.handHistory.push({x:finger.x,y:finger.y});
+    if(this.handHistory.length>this.maxHistory){
+      this.handHistory.shift();
     }
   }
 
@@ -83,7 +83,7 @@ class Harp {
       }
       ctx.stroke();
     }
-// 2. 【在迴圈外面】畫軌跡，這樣軌跡就會在最上層
+    // 2. 【在迴圈外面】畫軌跡，這樣軌跡就會在最上層
     if (this.handHistory.length > 5) {
       ctx.save(); // 保護畫布狀態
       const xOffset=canvasWidth/4;
@@ -95,19 +95,14 @@ class Harp {
       ctx.shadowBlur = 15;
       ctx.shadowColor = "white";
 
-      // 繪製起點 (套用偏移)
-      const startX = (this.handHistory[0].x * canvasWidth) - xOffset;
-      const startY = this.handHistory[0].y * canvasHeight;
-      ctx.moveTo(startX, startY);
+      // 直接使用 x，不要再乘 canvasWidth
+      ctx.moveTo(this.handHistory[0].x - xOffset, this.handHistory[0].y);
 
-      // 繪製後續點 (套用偏移)
       for (let i = 1; i < this.handHistory.length; i++) {
-          const nextX = (this.handHistory[i].x * canvasWidth) - xOffset;
-          const nextY = this.handHistory[i].y * canvasHeight;
-          ctx.lineTo(nextX, nextY);
+          ctx.lineTo(this.handHistory[i].x - xOffset, this.handHistory[i].y);
       }
       ctx.stroke();
-      ctx.restore(); // 恢復狀態，避免影響下一幀繪圖
+      ctx.restore();  
     }
   }
 
