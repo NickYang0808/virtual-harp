@@ -173,7 +173,7 @@ function mappingToString(activeNotes) {
     finalHarpNotes[3] = newRoot + 12; // 第 5 弦 (高八度 Root)
     finalHarpNotes[4] = activeNotes[1]+12; //3音
     finalHarpNotes[5] = activeNotes[2]+12; //5音
-    finalHarpNotes[6] = newRoot +24; //根音
+    finalHarpNotes[6] = newRoot + 24; //根音
   }
   return finalHarpNotes; 
 }

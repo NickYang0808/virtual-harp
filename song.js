@@ -38,21 +38,5 @@ const IMUSE_SONGS = [
     youtubeUrl: "https://www.youtube.com/watch?v=GPoTmtykcGY",
     firstBeatOffset: 26.200, //約0:17秒左右,
     scene:"pub"
-  },
-  {
-    title: "耶穌恩友（排灣族語）",
-    category: "原民歌曲",
-    url: "./midi/耶穌恩友.mid",
-    youtubeUrl: "https://www.youtube.com/watch?v=zriDaxBh5mo",
-    firstBeatOffset: 2.5, //約0:0.5秒左右,
-    scene:"lake"
-  },
-  {
-    title: "耶和華祝福滿滿",
-    category: "華語歌曲",
-    url: "./midi/耶和華祝福.mid",
-    youtubeUrl: "https://www.youtube.com/watch?v=OD7Pvwz4cjY",
-    firstBeatOffset: 2, //約0:8秒左右,
-    scene:"lake"
-  },
+  }
 ];
